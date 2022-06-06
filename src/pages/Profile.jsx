@@ -2,8 +2,8 @@ import React from "react";
 
 function Profile() {
   return (
-    <main className="grow w-1/3 mx-auto text-lg">
-      <div className="flex justify-center items-center divide-x divide-indigo-500/40 my-4 rounded shadow shadow-indigo-500/40 py-6 bg-primaryDark ">
+    <main className="grow w-full md:w-1/3 mx-1 md:mx-auto text-lg">
+      <div className="flex flex-wrap md:flex-nowrap justify-center items-center divide-x divide-indigo-500/40 my-4 rounded shadow shadow-indigo-500/40 py-6 bg-primaryDark ">
         <img
           className="w-40 rounded-full mx-4"
           src="https://picsum.photos/300"
