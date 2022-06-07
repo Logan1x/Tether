@@ -1,14 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "../features/authSlice";
 
 function Login() {
-  //TODO: navigate the user to the home page if they are already logged in
-  // const { user } = useSelector((state) => state.auth);
-  // if (user !== null) {
-  //   return <div>You are logged in</div>;
-  // }
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  if (user !== null) {
+    navigate("/");
+  }
 
   const [userDetails, setUserDetails] = React.useState({
     username: "",

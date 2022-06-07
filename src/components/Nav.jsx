@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { VscTypeHierarchy } from "react-icons/vsc";
-import { Link } from "react-router-dom";
-import { userLogout } from "../../features/authSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { userLogout } from "../features/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function Nav() {
-  const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth, user } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState("hidden");
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(userLogout());
+    navigate("/");
   };
   return (
     <nav className="flex-none justify-center px-6 text-lg bg-secondary text-paragraphDark">
@@ -29,7 +31,7 @@ function Nav() {
           <Link to="/explore">
             <p className="px-1">Explore</p>
           </Link>
-          <Link to="/profile">
+          <Link to={isAuth ? `/profile/${user.username}` : `/login`}>
             <p className="px-1">Profile</p>
           </Link>
           {isAuth ? (

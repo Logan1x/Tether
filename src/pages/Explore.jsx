@@ -6,15 +6,19 @@ import {
   MdFavoriteBorder,
   MdFavorite,
 } from "react-icons/md";
+import { Discover } from "../components";
 
 function Explore() {
   return (
-    <main className="grow w-full md:w-1/2 mx-auto">
+    <main className="grow w-full md:w-1/3 mx-auto">
       <div className="flex flex-col md:flex-row">
         <div className="grow">
           <h1 className="text-2xl text-center py-2">Explore</h1>
 
           <div>{/* input box */}</div>
+          <div>
+            <Discover />
+          </div>
           <div>
             {/* card1 starts */}
 
@@ -69,22 +73,6 @@ function Explore() {
                   {/* if bookmarked use `MdBookmarkAdded` */}
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex-none px-2 ">
-          <p className="text-center py-2">Follow these</p>
-          <div className="flex  mx-auto">
-            <div className="w-1/8 mx-2">
-              <img
-                className="w-12 rounded-full"
-                src="https://picsum.photos/200"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-col w-7/8 ">
-              <h1>Khushal Sharma</h1>
-              <p className="text-xs">Engineer at netflix</p>
             </div>
           </div>
         </div>

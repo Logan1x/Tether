@@ -54,6 +54,23 @@ const authSlice = createSlice({
       state.user = null;
       state.authToken = null;
     },
+    editProfile: (state, action) => {
+      state.user.firstName = action.payload.firstName;
+      state.user.lastName = action.payload.lastName;
+      state.user.username = action.payload.username;
+      state.user.bio = action.payload.bio;
+      const user = JSON.parse(localStorage.getItem("tether-user"));
+      localStorage.setItem(
+        "tether-user",
+        JSON.stringify({
+          ...user,
+          username: action.payload.username,
+          firstName: action.payload.firstName,
+          lastName: action.payload.lastName,
+          bio: action.payload.bio,
+        })
+      );
+    },
   },
   extraReducers: {
     [userSignUp.fulfilled]: (state, action) => {
@@ -68,5 +85,5 @@ const authSlice = createSlice({
     },
   },
 });
-export const { userLogout } = authSlice.actions;
+export const { userLogout, editProfile } = authSlice.actions;
 export default authSlice.reducer;
