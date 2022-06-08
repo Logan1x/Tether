@@ -29,7 +29,10 @@ function Discover() {
       <p className="text-center pb-2">Discover</p>
       <div className="flex justify-around">
         {people.map((person) => (
-          <div className="flex flex-col justify-between items-center mx-auto px-1 py-2 border-2 border-primary min-w-20 w-40 overflow-hidden max-w-24 rounded hover:shadow hover:shadow-indigo-500/60">
+          <div
+            className="flex flex-col justify-between items-center mx-auto px-1 py-2 border-2 border-primary min-w-20 w-40 overflow-hidden max-w-24 rounded hover:shadow hover:shadow-indigo-500/60"
+            key={person._id}
+          >
             <div className="w-1/8 mx-2">
               <img
                 className="w-20 object-cover rounded-full"

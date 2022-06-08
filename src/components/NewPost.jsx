@@ -1,7 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { createPost } from "../features/postSlice";
 
 function NewPost() {
+  const { authToken, isAuth: authUserLoading } = useSelector(
+    (state) => state.auth
+  );
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [inputState, setInputState] = useState({
     text: "",
     disableBtn: "",
@@ -16,6 +24,24 @@ function NewPost() {
       disableBtn: currTextLen <= 0 ? true : false,
       currTextLen,
     });
+  };
+
+  const createNewPost = () => {
+    if (inputState.text.length > 0) {
+      authUserLoading
+        ? dispatch(
+            createPost({
+              authToken,
+              post: { content: inputState.text, comments: [] },
+            })
+          )
+        : navigate("/login");
+      setInputState({
+        text: "",
+        disableBtn: "",
+        currTextLen: 250,
+      });
+    }
   };
   return (
     <div className="border shadow shadow-indigo-500/40 p-1 rounded">
@@ -34,14 +60,13 @@ function NewPost() {
         >
           {inputState.currTextLen}
         </p>
-        <Link to="/">
-          <button
-            className={`bg-red-500 px-4 py-2 rounded text-lg disabled:bg-gray-500 disabled:cursor-not-allowed`}
-            disabled={inputState.disableBtn}
-          >
-            Post
-          </button>
-        </Link>
+        <button
+          className={`bg-red-500 px-4 py-2 rounded text-lg disabled:bg-gray-500 disabled:cursor-not-allowed`}
+          disabled={inputState.disableBtn}
+          onClick={createNewPost}
+        >
+          Post
+        </button>
       </div>
     </div>
   );
