@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import {
   MdBookmarkAdd,
   MdBookmarkAdded,
@@ -6,22 +6,37 @@ import {
   MdFavoriteBorder,
   MdFavorite,
 } from "react-icons/md";
-import { Discover } from "../components";
+import { useSelector, useDispatch } from "react-redux";
+import { Discover, NewPost } from "../components";
+import { getPosts } from "../features/postSlice";
+import { getAllUsers } from "../features/userSlice";
 
 function Explore() {
+  const dispatch = useDispatch();
+  const { authToken, isAuth: authUserLoading } = useSelector(
+    (state) => state.auth
+  );
+  const { posts, postsLoading } = useSelector((state) => state.posts);
+
+  useEffect(() => {
+    authToken !== null && dispatch(getAllUsers({ authToken }));
+  }, [authUserLoading]);
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, []);
+
   return (
     <main className="grow w-full md:w-1/3 mx-auto">
       <div className="flex flex-col md:flex-row">
         <div className="grow">
           <h1 className="text-2xl text-center py-2">Explore</h1>
-
-          <div>{/* input box */}</div>
+          <NewPost />
           <div>
             <Discover />
           </div>
           <div>
             {/* card1 starts */}
-
             <div className="flex w-full  mx-auto py-2 bg-primaryDark shadow shadow-indigo-500/40 rounded px-2 ">
               <div className="w-1/8 mx-2">
                 <img

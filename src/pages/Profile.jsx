@@ -25,7 +25,6 @@ function Profile() {
     e.preventDefault();
     dispatch(editProfile(updateUserData));
     dispatch(profileUpdate(updateUserData));
-    // TODO: update profile
     setModalClass(modalClass === "" ? "hidden" : "");
   };
 
