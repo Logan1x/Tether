@@ -18,11 +18,20 @@ function Profile() {
     (state) => state.userProfile
   );
   const [updateUserData, setUpdateUserData] = useState({
-    username: userProfileData.username,
-    firstName: userProfileData.firstName,
-    lastName: userProfileData.lastName,
-    bio: userProfileData.bio,
+    username: "",
+    firstName: "",
+    lastName: "",
+    bio: "",
   });
+
+  const updateState = () => {
+    setUpdateUserData({
+      username: userProfileData.username,
+      firstName: userProfileData.firstName,
+      lastName: userProfileData.lastName,
+      bio: userProfileData.bio,
+    });
+  };
 
   const { posts } = useSelector((state) => state.posts);
 
@@ -39,6 +48,7 @@ function Profile() {
     dispatch(getUserProfile({ authToken, username }));
     dispatch(getPosts());
     dispatch(getAllUsers());
+    updateState();
   }, []);
 
   return userProfileLoading ? (

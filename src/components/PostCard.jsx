@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers } from "../features/userSlice";
-import { likePost } from "../features/postSlice";
+import { dislikePost, likePost } from "../features/postSlice";
 
 import {
   MdBookmarkAdd,
@@ -21,6 +21,22 @@ function PostCard({ data }) {
 
   const handleLike = (postId) => {
     dispatch(likePost({ authToken, postId }));
+    checkLikedByUser();
+  };
+
+  const handleDislike = (postId) => {
+    dispatch(dislikePost({ authToken, postId }));
+  };
+
+  const checkLikedByUser = () => {
+    const { likes, _id, username } = data;
+    if (likes.likedBy.length > 0) {
+      const likedByUser = likes.likedBy.some(
+        (user) => user.username === username
+      );
+      return likedByUser;
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -45,12 +61,21 @@ function PostCard({ data }) {
           {data.likes ? (
             <div className="text-xl flex">
               <div className="flex">
-                <button
-                  className="hover:text-white"
-                  onClick={() => handleLike(data._id)}
-                >
-                  <MdFavoriteBorder />
-                </button>
+                {checkLikedByUser ? (
+                  <button
+                    className="hover:text-white"
+                    onClick={() => handleLike(data._id)}
+                  >
+                    <MdFavoriteBorder />
+                  </button>
+                ) : (
+                  <button
+                    className="hover:text-white"
+                    onClick={() => handleDislike(data._id)}
+                  >
+                    <MdFavoriteBorder />
+                  </button>
+                )}
                 <p>{data.likes.likeCount}</p>
               </div>
 

@@ -61,6 +61,25 @@ export const likePost = createAsyncThunk(
   }
 );
 
+export const dislikePost = createAsyncThunk(
+  "posts/dislikePost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `/api/posts/dislike/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 const postSlice = createSlice({
   name: "posts",
   initialState,
