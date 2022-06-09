@@ -10,7 +10,7 @@ function PostCard({ data }) {
 
   const user = users.filter((user) => user.username === data.username)[0];
 
-  //   console.log(data);
+  console.log(data);
 
   useEffect(() => {
     dispatch(getAllUsers());
