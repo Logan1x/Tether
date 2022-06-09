@@ -74,7 +74,7 @@ function PostCard({ data }) {
                     className="hover:text-white"
                     onClick={() => handleLike(data._id)}
                   >
-                    <MdFavoriteBorder />
+                    <MdFavorite />
                   </button>
                 ) : (
                   <button
