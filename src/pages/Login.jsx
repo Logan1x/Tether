@@ -30,7 +30,7 @@ function Login() {
             e.preventDefault();
           }}
         >
-          <label htmlFor="">username</label>
+          <label htmlFor="username">username</label>
           <input
             className="py-2 px-1 my-2 text-black w-full rounded"
             type="text"
@@ -38,7 +38,7 @@ function Login() {
               setUserDetails({ ...userDetails, username: e.target.value })
             }
           />
-          <label htmlFor="">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             className="py-2 px-1 my-2 text-black w-full rounded"
             type="password"
@@ -46,7 +46,7 @@ function Login() {
               setUserDetails({ ...userDetails, password: e.target.value })
             }
           />
-          <label htmlFor="">
+          <label htmlFor="checkbox">
             <input type="checkbox" name="" id="" /> Remember me
           </label>
           <button

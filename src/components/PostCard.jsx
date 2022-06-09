@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers } from "../features/userSlice";
+import { likePost } from "../features/postSlice";
+
 import {
   MdBookmarkAdd,
   MdBookmarkAdded,
@@ -16,6 +18,10 @@ function PostCard({ data }) {
   const { users, userLoading } = useSelector((state) => state.users);
 
   const user = users.filter((user) => user.username === data.username)[0];
+
+  const handleLike = (postId) => {
+    dispatch(likePost({ authToken, postId }));
+  };
 
   useEffect(() => {
     dispatch(getAllUsers());
@@ -39,7 +45,10 @@ function PostCard({ data }) {
           {data.likes ? (
             <div className="text-xl flex">
               <div className="flex">
-                <button className="hover:text-white">
+                <button
+                  className="hover:text-white"
+                  onClick={() => handleLike(data._id)}
+                >
                   <MdFavoriteBorder />
                 </button>
                 <p>{data.likes.likeCount}</p>

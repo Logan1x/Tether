@@ -42,6 +42,25 @@ export const createPost = createAsyncThunk(
   }
 );
 
+export const likePost = createAsyncThunk(
+  "posts/likePost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `/api/posts/like/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 const postSlice = createSlice({
   name: "posts",
   initialState,
@@ -55,6 +74,10 @@ const postSlice = createSlice({
       state.postsLoading = true;
     },
     [createPost.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.postLoading = true;
+    },
+    [likePost.fulfilled]: (state, action) => {
       state.posts = action.payload.posts;
       state.postLoading = true;
     },
