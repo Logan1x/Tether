@@ -1,6 +1,13 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers } from "../features/userSlice";
+import {
+  MdBookmarkAdd,
+  MdBookmarkAdded,
+  MdOutlineInsertComment,
+  MdFavoriteBorder,
+  MdFavorite,
+} from "react-icons/md";
 
 function PostCard({ data }) {
   const dispatch = useDispatch();
@@ -9,8 +16,6 @@ function PostCard({ data }) {
   const { users, userLoading } = useSelector((state) => state.users);
 
   const user = users.filter((user) => user.username === data.username)[0];
-
-  console.log(data);
 
   useEffect(() => {
     dispatch(getAllUsers());
@@ -31,6 +36,30 @@ function PostCard({ data }) {
           <h1>{`${user.firstName} ${user.lastName}`}</h1>
           <p className="text-xs">{user.bio}</p>
           <p className="text-lg">{data.content}</p>
+          {data.likes ? (
+            <div className="text-xl flex">
+              <div className="flex">
+                <button className="hover:text-white">
+                  <MdFavoriteBorder />
+                </button>
+                <p>{data.likes.likeCount}</p>
+              </div>
+
+              {/* MdFavoriteBorder when liked */}
+              <div className="flex">
+                <button className="hover:text-white">
+                  <MdOutlineInsertComment />
+                </button>
+                <p>{data.comments.length}</p>
+              </div>
+              <button className="hover:text-white">
+                <MdBookmarkAdd />
+              </button>
+              {/* if bookmarked use `MdBookmarkAdded` */}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     )

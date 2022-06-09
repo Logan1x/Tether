@@ -95,7 +95,7 @@ function Nav() {
         <Link to="/explore">
           <p className="px-1">Explore</p>
         </Link>
-        <Link to="/profile">
+        <Link to={isAuth ? `/profile/${user.username}` : `/login`}>
           <p className="px-1">Profile</p>
         </Link>
       </div>

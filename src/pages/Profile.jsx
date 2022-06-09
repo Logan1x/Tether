@@ -147,6 +147,7 @@ function Profile() {
 
       {filteredPosts.map((post) => (
         <PostCard
+          key={post._id}
           data={{ username, content: post.content }}
           className="flex my-2 p-3 bg-primaryDark shadow shadow-indigo-500/40 rounded hover:shadow"
         />

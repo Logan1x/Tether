@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  MdBookmarkAdd,
-  MdBookmarkAdded,
-  MdOutlineInsertComment,
-  MdFavoriteBorder,
-  MdFavorite,
-} from "react-icons/md";
+
 import { useSelector, useDispatch } from "react-redux";
 import { Discover, NewPost, PostCard } from "../components";
 import { getPosts } from "../features/postSlice";
