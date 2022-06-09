@@ -23,7 +23,7 @@ function Signup() {
           className="flex flex-col border mx-1 rounded px-12 py-6"
           onSubmit={handleSubmit}
         >
-          <label htmlFor="">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             className="py-2 px-1 my-2 text-black w-full rounded"
             type="text"
@@ -34,7 +34,7 @@ function Signup() {
               })
             }
           />
-          <label htmlFor="">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             className="py-2 px-1 my-2 text-black w-full rounded"
             type="email"
@@ -45,7 +45,7 @@ function Signup() {
               })
             }
           />
-          <label htmlFor="">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             className="py-2 px-1 my-2 text-black w-full rounded"
             type="password"

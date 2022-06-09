@@ -16,7 +16,7 @@ export const getPosts = createAsyncThunk("posts/getPosts", async () => {
     });
     return res.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 });
 
@@ -37,7 +37,7 @@ export const createPost = createAsyncThunk(
 
       return res.data;
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 );

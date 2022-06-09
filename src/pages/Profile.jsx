@@ -83,7 +83,7 @@ function Profile() {
             />
           </div>
           <form className="flex flex-col border mx-1 rounded px-12 py-6">
-            <label htmlFor="">First Name</label>
+            <label htmlFor="first name">First Name</label>
             <input
               className="py-2 px-1 my-2 text-black w-full rounded"
               type="text"
@@ -95,7 +95,7 @@ function Profile() {
                 })
               }
             />
-            <label htmlFor="">Last Name</label>
+            <label htmlFor="last name">Last Name</label>
             <input
               className="py-2 px-1 my-2 text-black w-full rounded"
               type="text"
@@ -107,7 +107,7 @@ function Profile() {
                 })
               }
             />
-            <label htmlFor="">Username</label>
+            <label htmlFor="username">Username</label>
             <input
               className="py-2 px-1 my-2 text-black w-full rounded"
               type="text"
@@ -119,7 +119,7 @@ function Profile() {
                 })
               }
             />
-            <label htmlFor="">Bio</label>
+            <label htmlFor="Bio">Bio</label>
             <textarea
               className="py-2 px-1 my-2 text-black w-full rounded"
               type="text"
