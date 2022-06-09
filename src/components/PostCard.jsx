@@ -28,6 +28,8 @@ function PostCard({ data }) {
     dispatch(dislikePost({ authToken, postId }));
   };
 
+  // TODO: Handle remove bookmark
+
   const handleBookmarkAdd = (postId) => {
     dispatch(bookmarkPost({ authToken, postId }));
   };
