@@ -12,7 +12,7 @@ function Profile() {
   const { username } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { authToken } = useSelector((state) => state.auth);
+  const { authToken, user } = useSelector((state) => state.auth);
   const [modalClass, setModalClass] = useState("hidden");
   const { userProfileLoading, userProfileData } = useSelector(
     (state) => state.userProfile
@@ -62,12 +62,18 @@ function Profile() {
             <p>{userProfileData.followers.length} followers</p>
             <p>{userProfileData.following.length} following</p>
           </div>
-          <button
-            className="bg-red-500 px-3 py-2 rounded w-full text-lg"
-            onClick={() => setModalClass(modalClass === "" ? "hidden" : "")}
-          >
-            Edit Profile
-          </button>
+          {user.username === username ? (
+            <button
+              className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+              onClick={() => setModalClass(modalClass === "" ? "hidden" : "")}
+            >
+              Edit Profile
+            </button>
+          ) : (
+            <button className="bg-red-500 px-3 py-2 rounded w-full text-lg">
+              Follow
+            </button>
+          )}
         </div>
       </div>
 
