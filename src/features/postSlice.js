@@ -42,6 +42,48 @@ export const createPost = createAsyncThunk(
   }
 );
 
+export const editPost = createAsyncThunk(
+  "posts/editPost",
+  async ({ authToken, post }) => {
+    try {
+      console.log(post);
+      const res = await axios({
+        method: "post",
+        url: `/api/posts/edit/${post._id}`,
+        headers: {
+          authorization: authToken,
+        },
+        data: JSON.stringify({
+          postData: post,
+        }),
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "delete",
+        url: `/api/posts/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 export const likePost = createAsyncThunk(
   "posts/likePost",
   async ({ authToken, postId }) => {
@@ -132,6 +174,14 @@ const postSlice = createSlice({
       state.postsLoading = true;
     },
     [createPost.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.postLoading = true;
+    },
+    [editPost.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.postLoading = true;
+    },
+    [deletePost.fulfilled]: (state, action) => {
       state.posts = action.payload.posts;
       state.postLoading = true;
     },

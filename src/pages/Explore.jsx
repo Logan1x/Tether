@@ -21,7 +21,7 @@ function Explore() {
   }, []);
 
   return (
-    <main className="grow w-full md:w-1/3 mx-auto">
+    <main className="grow w-full md:w-1/3 mx-auto relative">
       <div className="flex flex-col md:flex-row">
         <div className="grow">
           <h1 className="text-2xl text-center py-2">Explore</h1>

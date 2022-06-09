@@ -48,7 +48,7 @@ function NewPost() {
       <textarea
         name=""
         id=""
-        className="w-full p-2 rounded"
+        className="w-full p-2 rounded text-black"
         placeholder="Whats on your mind today?"
         onChange={handleChange}
       ></textarea>
