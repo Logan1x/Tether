@@ -80,6 +80,45 @@ export const dislikePost = createAsyncThunk(
   }
 );
 
+export const getBookmarks = createAsyncThunk(
+  "posts/getBookmarks",
+  async ({ authToken }) => {
+    try {
+      const res = await axios({
+        method: "get",
+        url: "/api/users/bookmarks",
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const bookmarkPost = createAsyncThunk(
+  "posts/bookmarkPost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `/api/users/bookmark/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
 const postSlice = createSlice({
   name: "posts",
   initialState,
@@ -99,6 +138,18 @@ const postSlice = createSlice({
     [likePost.fulfilled]: (state, action) => {
       state.posts = action.payload.posts;
       state.postLoading = true;
+    },
+    [dislikePost.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.postLoading = true;
+    },
+    [getBookmarks.fulfilled]: (state, action) => {
+      state.bookmarks = action.payload.bookmarks;
+      state.bookmarksLoading = true;
+    },
+    [bookmarkPost.fulfilled]: (state, action) => {
+      state.bookmarks = action.payload.bookmarks;
+      state.bookmarksLoading = true;
     },
   },
 });

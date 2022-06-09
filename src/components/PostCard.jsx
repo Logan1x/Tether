@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllUsers } from "../features/userSlice";
-import { dislikePost, likePost } from "../features/postSlice";
+import { dislikePost, likePost, bookmarkPost } from "../features/postSlice";
 
 import {
   MdBookmarkAdd,
@@ -27,6 +27,12 @@ function PostCard({ data }) {
   const handleDislike = (postId) => {
     dispatch(dislikePost({ authToken, postId }));
   };
+
+  const handleBookmarkAdd = (postId) => {
+    dispatch(bookmarkPost({ authToken, postId }));
+  };
+
+  // TODO: Dislike not working due to function checkLikedByUser() is not working as expected, see line 66 for more.
 
   const checkLikedByUser = () => {
     const { likes, _id, username } = data;
@@ -86,7 +92,10 @@ function PostCard({ data }) {
                 </button>
                 <p>{data.comments.length}</p>
               </div>
-              <button className="hover:text-white">
+              <button
+                className="hover:text-white"
+                onClick={() => handleBookmarkAdd(data._id)}
+              >
                 <MdBookmarkAdd />
               </button>
               {/* if bookmarked use `MdBookmarkAdded` */}
