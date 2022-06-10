@@ -71,24 +71,25 @@ const userSlice = createSlice({
     },
     [postFollowUser.fulfilled]: (state, action) => {
       state.userLoading = true;
-      const { followuser, user } = action.payload;
+      const { followUser, user } = action.payload;
       state.users = state.users.map((stateUser) => {
-        if (stateUser.username === followuser.username) {
+        if (stateUser.username === followUser.username) {
           return {
             ...stateUser,
-            followers: [...stateUser.followers, { ...followuser }],
+            followers: [...stateUser.followers, { ...followUser }],
           };
         }
-        return stateUser;
+        return { ...stateUser };
       });
+
       state.users = state.users.map((stateUser) => {
         if (stateUser.username === user.username) {
           return {
             ...stateUser,
-            following: [...stateUser.following, { ...user }],
+            following: [...stateUser.followers, { ...followUser }],
           };
         }
-        return stateUser;
+        return { ...stateUser };
       });
     },
     [postUnfollowUser.pending]: (state) => {

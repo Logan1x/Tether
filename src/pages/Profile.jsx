@@ -7,6 +7,7 @@ import { getPosts, getBookmarks } from "../features/postSlice";
 import { editProfile } from "../features/authSlice";
 import { MdClose } from "react-icons/md";
 import { PostCard } from "../components/PostCard";
+import { postFollowUser } from "../features/userSlice";
 
 function Profile() {
   const { username } = useParams();
@@ -17,6 +18,10 @@ function Profile() {
     (state) => state.userProfile
   );
 
+  const { users } = useSelector((state) => state.users);
+
+  const currUser = users.filter((user) => user.username === username)[0];
+
   const bookmarksArr = useSelector((state) => state.posts.bookmarks);
 
   const [updateUserData, setUpdateUserData] = useState({
@@ -24,6 +29,19 @@ function Profile() {
     firstName: "",
     lastName: "",
     bio: "",
+  });
+
+  const [stateInfo, setStateInfo] = useState({
+    follow: false,
+    followText: (
+      <button
+        className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+        onClick={() => handleFollow()}
+      >
+        Follow
+      </button>
+    ),
+    firstRender: true,
   });
 
   const updateState = () => {
@@ -46,6 +64,40 @@ function Profile() {
     dispatch(editProfile(updateUserData));
     dispatch(profileUpdate(updateUserData));
     setModalClass(modalClass === "" ? "hidden" : "");
+  };
+
+  const handleFollow = (username) => {
+    dispatch(postFollowUser({ authToken, username }));
+    setStateInfo({
+      ...stateInfo,
+      follow: true,
+      firstRender: false,
+      followText: (
+        <button
+          className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+          onClick={() => handleUnfllow(username)}
+        >
+          Unfollow
+        </button>
+      ),
+    });
+  };
+
+  const handleUnfllow = (username) => {
+    dispatch(postFollowUser({ authToken, username }));
+    setStateInfo({
+      ...stateInfo,
+      follow: false,
+      firstRender: false,
+      followText: (
+        <button
+          className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+          onClick={() => handleFollow(username)}
+        >
+          Follow
+        </button>
+      ),
+    });
   };
 
   useEffect(() => {
@@ -85,9 +137,18 @@ function Profile() {
               Edit Profile
             </button>
           ) : (
-            <button className="bg-red-500 px-3 py-2 rounded w-full text-lg">
-              Follow
-            </button>
+            <>
+              {stateInfo.firstRender ? (
+                <button
+                  className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+                  onClick={() => handleFollow(userProfileData.username)}
+                >
+                  Follow
+                </button>
+              ) : (
+                stateInfo.followText
+              )}
+            </>
           )}
         </div>
       </div>
@@ -161,8 +222,12 @@ function Profile() {
       </div>
 
       <div className="flex bg-primaryDark justify-around py-2 rounded shadow shadow-indigo-500/40">
-        <p onClick={() => setShowTab("posts")}>posts</p>
-        <p onClick={() => setShowTab("bookmarks")}>bookmarks</p>
+        <p className="cursor-pointer" onClick={() => setShowTab("posts")}>
+          posts
+        </p>
+        <p className="cursor-pointer" onClick={() => setShowTab("bookmarks")}>
+          bookmarks
+        </p>
       </div>
 
       {showTab === "posts" ? (
@@ -175,13 +240,17 @@ function Profile() {
         ))
       ) : (
         <div className="flex flex-col justify-center items-center">
-          {bookmarksArr.map((post) => (
-            <PostCard
-              key={post._id}
-              data={{ username: post.username, content: post.content }}
-              className="flex my-2 p-3 bg-primaryDark shadow shadow-indigo-500/40 rounded hover:shadow"
-            />
-          ))}
+          {bookmarksArr.length > 0 ? (
+            bookmarksArr.map((post) => (
+              <PostCard
+                key={post._id}
+                data={{ username: post.username, content: post.content }}
+                className="flex my-2 p-3 bg-primaryDark shadow shadow-indigo-500/40 rounded hover:shadow"
+              />
+            ))
+          ) : (
+            <p className="py-2">No bookmarks yet</p>
+          )}
         </div>
       )}
     </main>
