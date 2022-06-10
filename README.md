@@ -1,6 +1,6 @@
 <div align="center">
 
-# Tether - conect the world around you.
+# Tether - connect the world around you.
 
 An minimal Social media app based ReactJS and Redux toolkit.
 
