@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserProfile, profileUpdate } from "../features/userProfileSlice";
 import { getAllUsers } from "../features/userSlice";
-import { getPosts } from "../features/postSlice";
+import { getPosts, getBookmarks } from "../features/postSlice";
 import { editProfile } from "../features/authSlice";
 import { MdClose } from "react-icons/md";
 import { PostCard } from "../components/PostCard";
@@ -11,12 +11,14 @@ import { PostCard } from "../components/PostCard";
 function Profile() {
   const { username } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { authToken, user } = useSelector((state) => state.auth);
   const [modalClass, setModalClass] = useState("hidden");
   const { userProfileLoading, userProfileData } = useSelector(
     (state) => state.userProfile
   );
+
+  const bookmarksArr = useSelector((state) => state.posts.bookmarks);
+
   const [updateUserData, setUpdateUserData] = useState({
     username: "",
     firstName: "",
@@ -33,6 +35,8 @@ function Profile() {
     });
   };
 
+  const [showTab, setShowTab] = useState("posts");
+
   const { posts } = useSelector((state) => state.posts);
 
   const filteredPosts = posts.filter((post) => post.username === username);
@@ -48,6 +52,7 @@ function Profile() {
     dispatch(getUserProfile({ authToken, username }));
     dispatch(getPosts());
     dispatch(getAllUsers());
+    dispatch(getBookmarks({ authToken }));
     updateState();
   }, []);
 
@@ -156,18 +161,29 @@ function Profile() {
       </div>
 
       <div className="flex bg-primaryDark justify-around py-2 rounded shadow shadow-indigo-500/40">
-        <p>posts</p>
-        <p>bookmarks</p>
-        <p>activity</p>
+        <p onClick={() => setShowTab("posts")}>posts</p>
+        <p onClick={() => setShowTab("bookmarks")}>bookmarks</p>
       </div>
 
-      {filteredPosts.map((post) => (
-        <PostCard
-          key={post._id}
-          data={{ username, content: post.content }}
-          className="flex my-2 p-3 bg-primaryDark shadow shadow-indigo-500/40 rounded hover:shadow"
-        />
-      ))}
+      {showTab === "posts" ? (
+        filteredPosts.map((post) => (
+          <PostCard
+            key={post._id}
+            data={{ username, content: post.content }}
+            className="flex my-2 p-3 bg-primaryDark shadow shadow-indigo-500/40 rounded hover:shadow"
+          />
+        ))
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          {bookmarksArr.map((post) => (
+            <PostCard
+              key={post._id}
+              data={{ username: post.username, content: post.content }}
+              className="flex my-2 p-3 bg-primaryDark shadow shadow-indigo-500/40 rounded hover:shadow"
+            />
+          ))}
+        </div>
+      )}
     </main>
   ) : (
     <main className="grow w-full md:w-1/3 mx-1 md:mx-auto text-lg">

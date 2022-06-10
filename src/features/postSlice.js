@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   posts: [],
+  bookmarks: [],
   post: {},
   postsLoading: false,
   postLoading: false,
@@ -46,7 +47,6 @@ export const editPost = createAsyncThunk(
   "posts/editPost",
   async ({ authToken, post }) => {
     try {
-      console.log(post);
       const res = await axios({
         method: "post",
         url: `/api/posts/edit/${post._id}`,
@@ -128,12 +128,13 @@ export const getBookmarks = createAsyncThunk(
     try {
       const res = await axios({
         method: "get",
-        url: "/api/users/bookmarks",
+        url: "/api/users/bookmark",
         headers: {
           authorization: authToken,
         },
       });
 
+      console.log(res.data);
       return res.data;
     } catch (err) {
       console.error(err);
@@ -153,7 +154,6 @@ export const bookmarkPost = createAsyncThunk(
         },
       });
 
-      console.log(res.data);
       return res.data;
     } catch (err) {
       console.error(err);

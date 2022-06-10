@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { getAllUsers } from "../features/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { postFollowUser } from "../features/userSlice";
 
 function Discover() {
   const { users } = useSelector((state) => state.users);
@@ -13,12 +14,30 @@ function Discover() {
 
   const dispatch = useDispatch();
 
+  const checkIfAlreadyFollowing = (user) => {
+    if (authUser.following.length > 0) {
+      return authUser.following.some(
+        (following) => following.username === user.username
+      );
+    }
+    return false;
+  };
+
   const people =
     authUserLoading &&
     users
       .filter((user) => user.username !== authUser.username)
+      .filter((user) => checkIfAlreadyFollowing(user) === false)
       .sort(() => 0.5 - Math.random())
       .slice(0, 3);
+
+  const handleFollow = (username) => {
+    dispatch(postFollowUser({ authToken, username }));
+  };
+
+  const handleUnfllow = (username) => {
+    dispatch(postFollowUser({ authToken, username }));
+  };
 
   useEffect(() => {
     authToken && dispatch(getAllUsers());
@@ -47,7 +66,10 @@ function Discover() {
               <p className="text-xs">{person.bio}</p>
             </div>
             <div>
-              <button className="bg-red-500 px-3 py-2 rounded w-full text-lg">
+              <button
+                className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+                onClick={() => handleFollow(person.username)}
+              >
                 Follow
               </button>
             </div>
