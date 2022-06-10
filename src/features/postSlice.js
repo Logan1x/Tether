@@ -46,7 +46,6 @@ export const editPost = createAsyncThunk(
   "posts/editPost",
   async ({ authToken, post }) => {
     try {
-      console.log(post);
       const res = await axios({
         method: "post",
         url: `/api/posts/edit/${post._id}`,
@@ -153,7 +152,6 @@ export const bookmarkPost = createAsyncThunk(
         },
       });
 
-      console.log(res.data);
       return res.data;
     } catch (err) {
       console.error(err);
