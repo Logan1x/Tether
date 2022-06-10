@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   posts: [],
+  bookmarks: [],
   post: {},
   postsLoading: false,
   postLoading: false,
@@ -16,7 +17,7 @@ export const getPosts = createAsyncThunk("posts/getPosts", async () => {
     });
     return res.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 });
 
@@ -34,9 +35,128 @@ export const createPost = createAsyncThunk(
           postData: post,
         }),
       });
+
       return res.data;
     } catch (err) {
-      console.log(err);
+      console.error(err);
+    }
+  }
+);
+
+export const editPost = createAsyncThunk(
+  "posts/editPost",
+  async ({ authToken, post }) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `/api/posts/edit/${post._id}`,
+        headers: {
+          authorization: authToken,
+        },
+        data: JSON.stringify({
+          postData: post,
+        }),
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "delete",
+        url: `/api/posts/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const likePost = createAsyncThunk(
+  "posts/likePost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `/api/posts/like/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const dislikePost = createAsyncThunk(
+  "posts/dislikePost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `/api/posts/dislike/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const getBookmarks = createAsyncThunk(
+  "posts/getBookmarks",
+  async ({ authToken }) => {
+    try {
+      const res = await axios({
+        method: "get",
+        url: "/api/users/bookmark",
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const bookmarkPost = createAsyncThunk(
+  "posts/bookmarkPost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `/api/users/bookmark/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
     }
   }
 );
@@ -56,6 +176,30 @@ const postSlice = createSlice({
     [createPost.fulfilled]: (state, action) => {
       state.posts = action.payload.posts;
       state.postLoading = true;
+    },
+    [editPost.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.postLoading = true;
+    },
+    [deletePost.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.postLoading = true;
+    },
+    [likePost.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.postLoading = true;
+    },
+    [dislikePost.fulfilled]: (state, action) => {
+      state.posts = action.payload.posts;
+      state.postLoading = true;
+    },
+    [getBookmarks.fulfilled]: (state, action) => {
+      state.bookmarks = action.payload.bookmarks;
+      state.bookmarksLoading = true;
+    },
+    [bookmarkPost.fulfilled]: (state, action) => {
+      state.bookmarks = action.payload.bookmarks;
+      state.bookmarksLoading = true;
     },
   },
 });
