@@ -134,7 +134,6 @@ export const getBookmarks = createAsyncThunk(
         },
       });
 
-      console.log(res.data);
       return res.data;
     } catch (err) {
       console.error(err);
@@ -149,6 +148,25 @@ export const bookmarkPost = createAsyncThunk(
       const res = await axios({
         method: "post",
         url: `/api/users/bookmark/${postId}`,
+        headers: {
+          authorization: authToken,
+        },
+      });
+
+      return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
+
+export const removeBookmarkPost = createAsyncThunk(
+  "posts/removeBookmarkPost",
+  async ({ authToken, postId }) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `/api/users/remove-bookmark/${postId}`,
         headers: {
           authorization: authToken,
         },
@@ -198,6 +216,10 @@ const postSlice = createSlice({
       state.bookmarksLoading = true;
     },
     [bookmarkPost.fulfilled]: (state, action) => {
+      state.bookmarks = action.payload.bookmarks;
+      state.bookmarksLoading = true;
+    },
+    [removeBookmarkPost.fulfilled]: (state, action) => {
       state.bookmarks = action.payload.bookmarks;
       state.bookmarksLoading = true;
     },

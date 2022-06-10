@@ -5,6 +5,7 @@ import {
   dislikePost,
   likePost,
   bookmarkPost,
+  removeBookmarkPost,
   editPost,
   deletePost,
 } from "../features/postSlice";
@@ -30,6 +31,15 @@ function PostCard({ data }) {
 
   const [updatePostData, setUpdatePostData] = useState("");
 
+  const [stateInfo, setStateInfo] = useState({
+    bookmarked: false,
+    liked: false,
+    bookmarkedIcon: (
+      <MdBookmarkAdd onClick={() => handleBookmarkAdd(data._id)} />
+    ),
+    likedIcon: <MdFavoriteBorder onClick={() => handleLike(data._id)} />,
+  });
+
   const handleEditPost = (e) => {
     e.preventDefault();
     dispatch(
@@ -45,30 +55,42 @@ function PostCard({ data }) {
 
   const handleLike = (postId) => {
     dispatch(likePost({ authToken, postId }));
-    checkLikedByUser();
+    setStateInfo({
+      ...stateInfo,
+      liked: true,
+      likedIcon: <MdFavorite onClick={() => handleDislike(data._id)} />,
+    });
   };
 
   const handleDislike = (postId) => {
     dispatch(dislikePost({ authToken, postId }));
+    setStateInfo({
+      ...stateInfo,
+      liked: false,
+      likedIcon: <MdFavoriteBorder onClick={() => handleLike(data._id)} />,
+    });
   };
-
-  // TODO: Handle remove bookmark
 
   const handleBookmarkAdd = (postId) => {
     dispatch(bookmarkPost({ authToken, postId }));
+    setStateInfo({
+      ...stateInfo,
+      bookmarked: true,
+      bookmarkedIcon: (
+        <MdBookmarkAdded onClick={() => handleRemoveBookmark(data._id)} />
+      ),
+    });
   };
 
-  // TODO: Dislike not working due to function checkLikedByUser() is not working as expected, see line 66 for more.
-
-  const checkLikedByUser = () => {
-    const { likes, _id, username } = data;
-    if (likes.likedBy.length > 0) {
-      const likedByUser = likes.likedBy.some(
-        (user) => user.username === username
-      );
-      return likedByUser;
-    }
-    return false;
+  const handleRemoveBookmark = (postId) => {
+    dispatch(removeBookmarkPost({ authToken, postId }));
+    setStateInfo({
+      ...stateInfo,
+      bookmarked: false,
+      bookmarkedIcon: (
+        <MdBookmarkAdd onClick={() => handleBookmarkAdd(data._id)} />
+      ),
+    });
   };
 
   useEffect(() => {
@@ -112,21 +134,9 @@ function PostCard({ data }) {
           {data.likes ? (
             <div className="text-xl flex">
               <div className="flex">
-                {checkLikedByUser ? (
-                  <button
-                    className="hover:text-white"
-                    onClick={() => handleLike(data._id)}
-                  >
-                    <MdFavorite />
-                  </button>
-                ) : (
-                  <button
-                    className="hover:text-white"
-                    onClick={() => handleDislike(data._id)}
-                  >
-                    <MdFavoriteBorder />
-                  </button>
-                )}
+                <button className="hover:text-white">
+                  {stateInfo.likedIcon}
+                </button>
                 <p>{data.likes.likeCount}</p>
               </div>
 
@@ -137,11 +147,8 @@ function PostCard({ data }) {
                 </button>
                 <p>{data.comments.length}</p>
               </div>
-              <button
-                className="hover:text-white"
-                onClick={() => handleBookmarkAdd(data._id)}
-              >
-                <MdBookmarkAdd />
+              <button className="hover:text-white">
+                {stateInfo.bookmarkedIcon}
               </button>
               {/* if bookmarked use `MdBookmarkAdded` */}
             </div>

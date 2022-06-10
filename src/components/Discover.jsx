@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getAllUsers } from "../features/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,6 +11,19 @@ function Discover() {
     authToken,
     isAuth: authUserLoading,
   } = useSelector((state) => state.auth);
+
+  const [stateInfo, setStateInfo] = useState({
+    follow: false,
+    followText: (
+      <button
+        className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+        onClick={() => handleFollow()}
+      >
+        Follow
+      </button>
+    ),
+    firstRender: true,
+  });
 
   const dispatch = useDispatch();
 
@@ -33,10 +46,36 @@ function Discover() {
 
   const handleFollow = (username) => {
     dispatch(postFollowUser({ authToken, username }));
+    setStateInfo({
+      ...stateInfo,
+      follow: true,
+      firstRender: false,
+      followText: (
+        <button
+          className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+          onClick={() => handleUnfllow(username)}
+        >
+          Unfollow
+        </button>
+      ),
+    });
   };
 
   const handleUnfllow = (username) => {
     dispatch(postFollowUser({ authToken, username }));
+    setStateInfo({
+      ...stateInfo,
+      follow: false,
+      firstRender: false,
+      followText: (
+        <button
+          className="bg-red-500 px-3 py-2 rounded w-full text-lg"
+          onClick={() => handleFollow(username)}
+        >
+          Follow
+        </button>
+      ),
+    });
   };
 
   useEffect(() => {
@@ -65,14 +104,17 @@ function Discover() {
               </Link>
               <p className="text-xs">{person.bio}</p>
             </div>
-            <div>
+
+            {stateInfo.firstRender ? (
               <button
                 className="bg-red-500 px-3 py-2 rounded w-full text-lg"
                 onClick={() => handleFollow(person.username)}
               >
                 Follow
               </button>
-            </div>
+            ) : (
+              stateInfo.followText
+            )}
           </div>
         ))}
       </div>
