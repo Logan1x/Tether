@@ -20,6 +20,8 @@ function Explore() {
     dispatch(getPosts());
   }, []);
 
+  console.log(`Authtoken : ${authToken}, isAuth : ${authUserLoading}`);
+
   return (
     <main className="grow w-full md:w-1/3 mx-auto relative">
       <div className="flex flex-col md:flex-row">
