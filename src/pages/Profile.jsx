@@ -231,13 +231,19 @@ function Profile() {
       </div>
 
       {showTab === "posts" ? (
-        filteredPosts.map((post) => (
-          <PostCard
-            key={post._id}
-            data={{ username, content: post.content }}
-            className="flex my-2 p-3 bg-primaryDark shadow shadow-indigo-500/40 rounded hover:shadow"
-          />
-        ))
+        <div className="flex flex-col justify-center items-center">
+          {filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => (
+              <PostCard
+                key={post._id}
+                data={{ username, content: post.content }}
+                className="flex my-2 p-3 bg-primaryDark shadow shadow-indigo-500/40 rounded hover:shadow"
+              />
+            ))
+          ) : (
+            <p className="py-2">No posts yet</p>
+          )}
+        </div>
       ) : (
         <div className="flex flex-col justify-center items-center">
           {bookmarksArr.length > 0 ? (

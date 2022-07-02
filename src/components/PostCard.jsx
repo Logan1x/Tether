@@ -131,7 +131,7 @@ function PostCard({ data }) {
           </div>
           <p className="text-xs">{user.bio}</p>
           <p className="text-lg">{data.content}</p>
-          {data.likes ? (
+          {authToken && data.likes ? (
             <div className="text-xl flex space-x-2">
               <div className="flex">
                 <button className="hover:text-white">
