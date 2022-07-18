@@ -7,7 +7,7 @@ function Login() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   if (user !== null) {
-    navigate("/");
+    navigate("/explore");
   }
 
   const [userDetails, setUserDetails] = React.useState({

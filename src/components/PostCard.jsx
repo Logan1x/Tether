@@ -111,7 +111,7 @@ function PostCard({ data }) {
         <div className="flex flex-col grow">
           <div className="flex justify-between items-center w-full">
             <h1>{`${user.firstName} ${user.lastName}`}</h1>
-            {data.username === authUser.username ? (
+            {data.username === authUser?.username ? (
               <div className="flex items-center">
                 <p>
                   <MdOutlineEdit
@@ -131,8 +131,8 @@ function PostCard({ data }) {
           </div>
           <p className="text-xs">{user.bio}</p>
           <p className="text-lg">{data.content}</p>
-          {data.likes ? (
-            <div className="text-xl flex">
+          {authToken && data.likes ? (
+            <div className="text-xl flex space-x-2">
               <div className="flex">
                 <button className="hover:text-white">
                   {stateInfo.likedIcon}
@@ -140,7 +140,6 @@ function PostCard({ data }) {
                 <p>{data.likes.likeCount}</p>
               </div>
 
-              {/* MdFavoriteBorder when liked */}
               <div className="flex">
                 <button className="hover:text-white">
                   <MdOutlineInsertComment />
@@ -150,7 +149,6 @@ function PostCard({ data }) {
               <button className="hover:text-white">
                 {stateInfo.bookmarkedIcon}
               </button>
-              {/* if bookmarked use `MdBookmarkAdded` */}
             </div>
           ) : (
             ""
