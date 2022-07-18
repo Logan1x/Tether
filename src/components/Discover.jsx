@@ -82,7 +82,6 @@ function Discover() {
     authToken && dispatch(getAllUsers());
   }, [authUserLoading]);
 
-  console.log(`people : ${people}`);
   return (
     people && (
       <div className="flex-none px-2 py-4 my-2 bg-primaryDark shadow shadow-indigo-500/40 rounded">
