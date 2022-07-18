@@ -125,7 +125,7 @@ function Profile() {
               : ""}
           </p>
           <div className="flex space-x-1 my-2">
-            <p>6 posts</p>
+            <p>{filteredPosts.length} posts</p>
             <p>{userProfileData.followers.length} followers</p>
             <p>{userProfileData.following.length} following</p>
           </div>
@@ -262,7 +262,7 @@ function Profile() {
     </main>
   ) : (
     <main className="grow w-full md:w-1/3 mx-1 md:mx-auto text-lg">
-      <p>Loading...</p>
+      <p className="text-center my-6">Loading...</p>
     </main>
   );
 }

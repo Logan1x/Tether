@@ -101,9 +101,9 @@ function Discover() {
               </div>
               <div className="flex flex-col w-7/8 py-2">
                 <Link to={`/profile/${person.username}`}>
-                  <h1>{`${person.firstName} ${person.lastName}`}</h1>
+                  <h1 className="text-center">{`${person.firstName} ${person.lastName}`}</h1>
                 </Link>
-                <p className="text-xs">{person.bio}</p>
+                <p className="text-xs text-center">{person.bio}</p>
               </div>
 
               {stateInfo.firstRender ? (
