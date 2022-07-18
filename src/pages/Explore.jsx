@@ -32,14 +32,6 @@ function Explore() {
             <Discover />
           </div>
           <div>
-            <p>Sort By</p>
-            <div className="flex space-x-2">
-              <button>Recent</button>
-              <button>Old</button>
-              <button>Trending</button>
-            </div>
-          </div>
-          <div>
             {postsLoading ? (
               <>
                 {posts.map((post) => (
