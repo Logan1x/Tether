@@ -13,7 +13,7 @@ This project is made out of HTML,CSS, and ReactJS, and ReduxToolkit **if you lov
 ## Tech Stack
 
 - Html5
-- Css3
+- TailwindCSS
 - ReactJS
 - Redux toolkit
 
