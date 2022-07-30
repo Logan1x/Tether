@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { getAllUsers } from "../features/userSlice";
 import {
   dislikePost,
@@ -110,7 +111,9 @@ function PostCard({ data }) {
         </div>
         <div className="flex flex-col grow">
           <div className="flex justify-between items-center w-full">
-            <h1>{`${user.firstName} ${user.lastName}`}</h1>
+            <Link to={`/profile/${user.username}`}>
+              <h1>{`${user.firstName} ${user.lastName}`}</h1>
+            </Link>
             {data.username === authUser?.username ? (
               <div className="flex items-center">
                 <p>
